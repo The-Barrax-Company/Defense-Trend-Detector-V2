@@ -4,6 +4,7 @@ import boto3
 import json
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 from pydantic import BaseModel
 from query_model import QueryModel
@@ -15,6 +16,15 @@ load_dotenv()
 WORKER_LAMBDA_NAME = os.environ.get("WORKER_LAMBDA_NAME", None)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace '*' with your frontend URL for security (e.g., ["http://localhost:5173"])
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows GET, POST, PUT, DELETE, OPTIONS
+    allow_headers=["*"],  # Allows all headers
+)
+
 handler = Mangum(app)  # Entry point for AWS Lambda.
 
 
