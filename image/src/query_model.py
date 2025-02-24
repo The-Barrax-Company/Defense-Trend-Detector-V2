@@ -6,6 +6,9 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from botocore.exceptions import ClientError
 
+from dotenv import load_dotenv
+load_dotenv()
+
 TABLE_NAME = os.environ.get("TABLE_NAME")
 
 

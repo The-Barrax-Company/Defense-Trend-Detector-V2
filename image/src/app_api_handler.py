@@ -9,6 +9,9 @@ from pydantic import BaseModel
 from query_model import QueryModel
 from rag_app.query_rag import query_rag
 
+from dotenv import load_dotenv
+load_dotenv()
+
 WORKER_LAMBDA_NAME = os.environ.get("WORKER_LAMBDA_NAME", None)
 
 app = FastAPI()
