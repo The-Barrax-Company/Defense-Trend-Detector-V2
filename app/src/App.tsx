@@ -1,4 +1,5 @@
 import './App.css'
+import APIInformationButton from './components/APIInformationButton';
 import FileUpload from './components/FileUpload';
 import HeaderImages from './components/HeaderImages'
 import QueryForm from './components/QueryForm'
@@ -14,6 +15,7 @@ function App() {
       <UpdateDatabaseButton />
       <ResetDatabaseButton />
       <FileUpload />
+      <APIInformationButton />
     </>
   );
 }
