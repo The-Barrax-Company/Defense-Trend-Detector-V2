@@ -1,23 +1,19 @@
 import './App.css'
+import FileUpload from './components/FileUpload';
+import HeaderImages from './components/HeaderImages'
 import QueryForm from './components/QueryForm'
+import ResetDatabaseButton from './components/ResetDatabaseButton';
+import UpdateDatabaseButton from './components/UpdateDatabaseButton';
 
 function App() {
   return (
     <>
-      <div>
-        <a href="https://" target="_blank">
-          <img src={"/trend-svgrepo-com.svg"} className="logo" alt="Trend" />
-        </a>
-        <a href="https://" target="_blank">
-          <img
-            src={"/fighter-jet-svgrepo-com.svg"}
-            className="logo"
-            alt="Jet"
-          />
-        </a>
-      </div>
+      <HeaderImages />
       <h1>Defense Trend Detector</h1>
       <QueryForm />
+      <UpdateDatabaseButton />
+      <ResetDatabaseButton />
+      <FileUpload />
     </>
   );
 }

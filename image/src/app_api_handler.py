@@ -3,12 +3,15 @@ import uvicorn
 import boto3
 import json
 
-from fastapi import FastAPI
+import shutil
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 from pydantic import BaseModel
 from query_model import QueryModel
 from rag_app.query_rag import query_rag
+
+from populate_database import populate_database
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -32,6 +35,25 @@ class SubmitQueryRequest(BaseModel):
     query_text: str
 
 
+# Define the directory to save uploaded files
+UPLOAD_DIR = "data/source"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+@app.post("/upload/")
+async def upload_pdf(file: UploadFile = File(...)):
+    # Optional: validate file type if needed, e.g.:
+    if file.content_type != "application/pdf":
+        return {"error": "Only PDF files are allowed."}
+    
+    file_path = os.path.join(UPLOAD_DIR, file.filename)
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    populate_database()
+
+    return {"info": f"File '{file.filename}' saved at '{file_path}'"}
+
+
 @app.get("/")
 def index():
     return {"Hello": "World"}
@@ -41,6 +63,20 @@ def index():
 def get_query_endpoint(query_id: str) -> QueryModel:
     query = QueryModel.get_item(query_id)
     return query
+
+
+@app.post("/populate_database")
+def populate_database_endpoint():
+    # Create the query item, and put it into the data-base.
+    response = populate_database()
+    return response
+
+
+@app.post("/reset_database")
+def reset_database_endpoint():
+    # Create the query item, and put it into the data-base.
+    response = populate_database(reset=True)
+    return response
 
 
 @app.post("/submit_query")
