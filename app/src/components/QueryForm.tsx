@@ -30,7 +30,7 @@ const QueryForm: React.FC = () => {
         return;
       }
 
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}/submit_query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const QueryForm: React.FC = () => {
 
   return (
     <div className="max-w-lg mx-auto p-4 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Submit a Query</h2>
+      <h2 className="text-xl font-semibold mb-4 text-left">Submit a Query</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <textarea
           className="p-2 border rounded-md"
@@ -72,10 +72,10 @@ const QueryForm: React.FC = () => {
         </button>
       </form>
 
-      {error && <p className="text-red-500 mt-3">{error}</p>}
+      {error && <p className="text-red-500 mt-3 text-left">{error}</p>}
 
       {responseData && (
-        <div className="mt-4 p-2 bg-white border rounded-md">
+        <div className="mt-4 p-2 bg-white border rounded-md text-left">
           <h2 className="font-medium">Response Details:</h2>
           <p>
             <strong>Query ID:</strong> {responseData.query_id}
@@ -84,10 +84,10 @@ const QueryForm: React.FC = () => {
             <strong>Created At:</strong>{" "}
             {new Date(responseData.create_time * 1000).toLocaleString()}
           </p>
-          <p>
+          <p className="whitespace-pre-line">
             <strong>Your Query:</strong> {responseData.query_text}
           </p>
-          <p>
+          <p className="whitespace-pre-line">
             <strong>Answer:</strong> {responseData.answer_text}
           </p>
 
