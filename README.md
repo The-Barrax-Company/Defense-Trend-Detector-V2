@@ -124,3 +124,19 @@ Then run this command to deploy it (assuming you have AWS CLI already set up, an
 ```sh
 cdk deploy
 ```
+
+## Run Vite app on localhost
+
+From within the `app` directory, run: 
+
+```sh
+npm run dev
+```
+
+## Run FastAPI server
+
+From within the `image/src/` directory, run:
+
+```sh
+uvicorn app_api_handler:app --reload
+```
