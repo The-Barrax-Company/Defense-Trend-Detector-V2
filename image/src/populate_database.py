@@ -9,26 +9,28 @@ from langchain_community.vectorstores import Chroma
 from rag_app.get_embedding_function import get_embedding_function
 
 
-CHROMA_PATH = "src/data/chroma"
-DATA_SOURCE_PATH = "src/data/source"
+CHROMA_PATH = "data/chroma"
+DATA_SOURCE_PATH = "data/source"
 
 
-def main():
+def populate_database(reset=False):
+    # Check if the database should be cleared (using the --clear flag).
     try:
-        # Check if the database should be cleared (using the --clear flag).
         parser = argparse.ArgumentParser()
         parser.add_argument("--reset", action="store_true", help="Reset the database.")
         args = parser.parse_args()
         if args.reset:
             print("✨ Clearing Database")
             clear_database()
+    except:
+        if reset:
+            print("✨ Clearing Database")
+            clear_database()
 
-        # Create (or update) the data store.
-        documents = load_documents()
-        chunks = split_documents(documents)
-        add_to_chroma(chunks)
-    except Exception as e:
-        raise Exception("Failed to update database")
+    # Create (or update) the data store.
+    documents = load_documents()
+    chunks = split_documents(documents)
+    add_to_chroma(chunks)
 
 
 def load_documents():
@@ -111,4 +113,4 @@ def clear_database():
 
 
 if __name__ == "__main__":
-    main()
+    populate_database()
